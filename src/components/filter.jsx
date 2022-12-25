@@ -2,9 +2,8 @@ import React from "react";
 import { HiSun, HiMoon } from "react-icons/hi";
 
 export default function Filter({
-  all,
   handleAll,
-  completed,
+  handleActived,
   handleCompleted,
   darkMode,
   handleDarkMode,
@@ -61,6 +60,7 @@ export default function Filter({
             name="filter"
             id="actived"
             className="hidden peer/filterActived"
+            onChange={() => handleActived()}
           />
           <label
             htmlFor="actived"
@@ -75,6 +75,7 @@ export default function Filter({
             name="filter"
             id="completed"
             className="hidden peer/filterCompleted"
+            onChange={() => handleCompleted()}
           />
           <label
             htmlFor="completed"

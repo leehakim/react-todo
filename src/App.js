@@ -4,8 +4,6 @@ import Filter from "./components/filter";
 import Todos from "./components/todos";
 
 function App() {
-  const [all, setAll] = useState(false);
-  const [completed, setCompleted] = useState(false);
   const [newTodo, setNewTodo] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
@@ -19,10 +17,6 @@ function App() {
     setDarkMode((darkMode) => !darkMode);
   };
 
-  const handleAll = (all) => {
-    setAll(!all);
-  };
-
   const handleAdd = () => {
     const newData = [...data, { name: newTodo, completed: false }];
 
@@ -30,10 +24,21 @@ function App() {
     setNewTodo("");
   };
 
+  /**
+   * e.nativeEvent.isComposing: 한글 입력시 두 번 실행 차단!
+   *
+   * @param {*} e
+   */
   const handleEnter = (e) => {
-    if (e.keyCode === 13 || e.key === "Enter") {
+    if (e.nativeEvent.isComposing === false && e.keyCode === 13) {
       handleAdd();
     }
+  };
+
+  const handleActived = () => {
+    const activedData = data.filter((dataTodo) => dataTodo.completed === false);
+
+    setData(activedData);
   };
 
   const handleCompleted = () => {
@@ -42,22 +47,18 @@ function App() {
     );
 
     setData(completedData);
-    setCompleted((completed) => !completed);
   };
 
   const handleDel = (delTodo) => {
     const delData = data.filter((dataTodo) => dataTodo.name !== delTodo);
 
     setData(delData);
-    console.log("del");
   };
 
   return (
     <div className="overflow-hidden rounded">
       <Filter
-        all={all}
-        handleAll={handleAll}
-        completed={completed}
+        handleActived={handleActived}
         handleCompleted={handleCompleted}
         darkMode={darkMode}
         handleDarkMode={handleDarkMode}
