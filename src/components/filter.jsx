@@ -46,6 +46,7 @@ export default function Filter({
             id="all"
             className="hidden peer/filterAll"
             defaultChecked
+            onChange={() => handleAll()}
           />
           <label
             htmlFor="all"

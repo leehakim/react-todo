@@ -1,10 +1,10 @@
 import React from "react";
 import { HiTrash } from "react-icons/hi";
 
-export default function Todos({ data, handleDel, darkMode }) {
+export default function Todos({ darkMode, data, handleDel, handleUpdate }) {
   return (
     <ul>
-      {data.map((todoData, idx) => {
+      {data.map((todoData) => {
         return (
           <li key={`todo-${todoData.name}`}>
             <div className="flex justify-between w-full px-4 py-2">
@@ -12,12 +12,13 @@ export default function Todos({ data, handleDel, darkMode }) {
                 <input
                   type="checkbox"
                   id={`chk-${todoData.name}`}
-                  className="mr-1"
+                  className="mr-1 peer"
                   defaultChecked={todoData.completed}
+                  onChange={() => handleUpdate(todoData.name)}
                 />
                 <label
                   htmlFor={`chk-${todoData.name}`}
-                  className={`checked:line-through ${
+                  className={`peer-checked:line-through ${
                     darkMode ? "text-white" : "text-[#333333]"
                   }`}
                 >

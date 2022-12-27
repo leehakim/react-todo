@@ -12,6 +12,7 @@ function App() {
     { name: "운동하기", completed: true },
     { name: "물마시기", completed: false },
   ]);
+  const [renderData, setRenderData] = useState([...data]);
 
   const handleDarkMode = () => {
     setDarkMode((darkMode) => !darkMode);
@@ -22,6 +23,17 @@ function App() {
 
     setData(newData);
     setNewTodo("");
+  };
+
+  const handleUpdate = (todoName) => {
+    setData(
+      data.map((prevData) => {
+        if (prevData.name === todoName) {
+          return { ...prevData, completed: !prevData.completed };
+        }
+        return prevData;
+      })
+    );
   };
 
   /**
@@ -35,10 +47,14 @@ function App() {
     }
   };
 
+  const handleAll = () => {
+    setRenderData(data);
+  };
+
   const handleActived = () => {
     const activedData = data.filter((dataTodo) => dataTodo.completed === false);
 
-    setData(activedData);
+    setRenderData(activedData);
   };
 
   const handleCompleted = () => {
@@ -46,7 +62,7 @@ function App() {
       (dataTodo) => dataTodo.completed === true
     );
 
-    setData(completedData);
+    setRenderData(completedData);
   };
 
   const handleDel = (delTodo) => {
@@ -58,6 +74,7 @@ function App() {
   return (
     <div className="overflow-hidden rounded">
       <Filter
+        handleAll={handleAll}
         handleActived={handleActived}
         handleCompleted={handleCompleted}
         darkMode={darkMode}
@@ -68,7 +85,12 @@ function App() {
           darkMode ? "bg-[#21253A]" : "bg-white"
         }`}
       >
-        <Todos data={data} handleDel={handleDel} darkMode={darkMode} />
+        <Todos
+          darkMode={darkMode}
+          data={renderData}
+          handleDel={handleDel}
+          handleUpdate={handleUpdate}
+        />
       </div>
       <div className={`flex p-4 ${darkMode ? "bg-[#1A1C33]" : "bg-[#F6F6F6]"}`}>
         <div className="overflow-hidden flex w-full rounded">
