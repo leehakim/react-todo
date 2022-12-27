@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Filter from "./components/filter";
 import Todos from "./components/todos";
@@ -19,9 +19,7 @@ function App() {
   };
 
   const handleAdd = () => {
-    const newData = [...data, { name: newTodo, completed: false }];
-
-    setData(newData);
+    setData([...data, { name: newTodo, completed: false }]);
     setNewTodo("");
   };
 
@@ -71,6 +69,10 @@ function App() {
     setData(delData);
   };
 
+  useEffect(() => {
+    setRenderData(data);
+  }, [data]);
+
   return (
     <div className="overflow-hidden rounded">
       <Filter
@@ -98,7 +100,7 @@ function App() {
             <input
               type="text"
               onChange={(e) => setNewTodo(e.target.value)}
-              onKeyDown={(e) => handleEnter(e)}
+              onKeyDown={handleEnter}
               placeholder="Add Todo"
               value={newTodo}
               className="w-full p-2"
