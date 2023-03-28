@@ -1,4 +1,4 @@
-# comp
+# react-todo
 
 `react`, `tailwind`
  
